@@ -284,4 +284,4 @@ function new_RPSNode(parent, type) {
 }
 
 buildTreeFromDB();
-app.listen(80);
+app.listen(process.env.PORT || 80);

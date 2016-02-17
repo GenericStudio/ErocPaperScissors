@@ -9,7 +9,7 @@ var express = require('express'),
     app = express();
 
 var MongoClient = mongodb.MongoClient;
-var mongoUrl = 'mongodb://localhost/RPS';
+var mongoUrl = 'mongodb://generocusername:qazwsx@ds062438.mongolab.com:62438/MongoLab-e4';
 // tell your app to use the modules
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); // support json encoded bodies
@@ -51,7 +51,7 @@ app.post('/getNext', function (req, res) {
             else {
 
                 mongoUpsert(db, 'games', { _id: req.body.session, hands: record }, function (user_res) {
-                  //  console.log(user_res);
+                    //  console.log(user_res);
                     db.close();
                 });
             }
@@ -80,7 +80,7 @@ function mongoUpsert(db, collection_name, data, cb) {
     var collection = db.collection(collection_name);
     collection.save(data, function (err, res) {
         if (err) {
-          //  console.log(err);
+            //  console.log(err);
         }
         else {
             console.log('Inserted into the ' + collection_name + ' collection');
@@ -95,7 +95,7 @@ function mongoInsert(db, collection_name, data, cb) {
             console.log(err);
         }
         else {
-          //  console.log('Inserted into the ' + collection_name + ' collection');
+            //  console.log('Inserted into the ' + collection_name + ' collection');
             cb(res);
         }
     });
@@ -210,6 +210,7 @@ function buildTreeFromDB() {
     });
 }
 function mongoQueryAll(db, collection_name, data, cb) {
+
     var collection = db.collection(collection_name);
     collection.find().toArray(function (err, docs) {
         if (err) {
@@ -222,6 +223,7 @@ function mongoQueryAll(db, collection_name, data, cb) {
             }
         }
     });
+
 }
 function GetWinningHand(hand) {
     if (hand == 'R') return 'P';

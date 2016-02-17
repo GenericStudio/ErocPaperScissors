@@ -1,0 +1,83 @@
+<section id="Records">
+    <section layout="row" layout-md="column" layout-align="center center" layout-wrap>
+        Player : {{record.PlayerWinCount}} AI : {{record.AIWinCount}}
+    </section>
+
+    <section layout="row" layout-md="column" layout-align="center center" layout-wrap>
+        <style>
+            .record_row {
+                list-style: none;
+            }
+            
+            .record_row img {
+                height: 100px;
+                width: 100px;
+            }
+            
+            .record_row p {
+                position: relative;
+                top: 35px;
+                left: 35px;
+                list-style-type: none;
+            }
+            .player{
+                background-color:#98FF98
+            }
+            .ai{
+                background-color:#FFCDCD;
+            }
+            
+            .win {
+                background-color: green;
+            }
+            
+            .lose {
+                background-color: brown;
+            }
+        </style>
+
+        <ul>
+            <li class='record_row' ng-repeat="item in record.playerHands track by $index" style='clear:left; '>
+                <div style='float:left; width:300px; '>
+                    <md-card class = 'player'>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">Player</span>
+                                <span class="md-subhead">{{record.playerHands[record.playerHands.length-1 - $index]}}</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <rock-image ng-if="record.playerHands[record.playerHands.length-1 - $index]=='R'"></rock-image>
+                                <paper-image ng-if="record.playerHands[record.playerHands.length-1 - $index]=='P'"></paper-image>
+                                <scissors-image ng-if="record.playerHands[record.playerHands.length-1 - $index]=='S'"></scissors-image>
+                            </md-card-title-media>
+                        </md-card-title>
+                    </md-card>
+                </div>
+                <div style='float:left; width:300px;'>
+                    <md-card class='ai'>
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">AI</span>
+                                <span class="md-subhead">{{record.aiHands[record.playerHands.length-1 - $index]}}</span>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <rock-image ng-if="record.aiHands[record.aiHands.length-1 - $index]=='R'"></rock-image>
+                                <paper-image ng-if="record.aiHands[record.aiHands.length-1 - $index]=='P'"></paper-image>
+                                <scissors-image ng-if="record.aiHands[record.aiHands.length-1 - $index]=='S'"></scissors-image>
+                            </md-card-title-media>
+                        </md-card-title>
+                    </md-card>
+                </div>
+                <div style='float:left; width:300px;'>
+                    <md-card ng-class="{'win':record.winners[record.playerHands.length-1 - $index] == 'Player','lose':record.winners[record.playerHands.length-1 - $index] == 'AI' }">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{record.winners[record.playerHands.length-1 - $index]}}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                </div>
+            </li>
+        </ul>
+    </section>
+</section>

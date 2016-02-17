@@ -1,0 +1,31 @@
+<section id="PlayerInput">
+    <style>
+        .md-button.md-fab {
+           background-color:white;
+            height:250px;
+            width:250px;
+        }
+        .md-button.md-icon-button {
+           
+            height:250px;
+            width:250px;
+        }
+        md-icon {
+           
+            height:250px;
+            width:250px;
+        }
+       
+    </style>
+    <section layout="row" layout-md="column" layout-align="center top" layout-wrap>
+        <md-button class="md-icon-button md-primary" ng-click="PlayHand('R')">
+            <md-icon md-svg-icon="app/images/Rock.svg"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button md-primary" ng-click="PlayHand('P')">
+            <md-icon md-svg-icon="app/images/Paper.svg"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button md-primary" ng-click="PlayHand('S')">
+            <md-icon md-svg-icon="app/images/Scissors.svg"></md-icon>
+        </md-button>
+    </section>
+</section>

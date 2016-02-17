@@ -1,7 +1,7 @@
 {
   "name": "nodehack",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "^1.14.2",
     "excel": "^0.1.4",

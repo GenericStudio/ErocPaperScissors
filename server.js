@@ -7,9 +7,10 @@ var express = require('express'),
     mongodb = require('mongodb'),
     fs = require('fs'),
     app = express();
-
+var Debug = false;
 var MongoClient = mongodb.MongoClient;
-var mongoUrl = 'mongodb://generocusername:qazwsx@ds062438.mongolab.com:62438/MongoLab-e4';
+var mongoUrl = 'mongodb://localhost:27017'
+if (!Debug) mongoUrl = 'mongodb://generocusername:qazwsx@ds062438.mongolab.com:62438/MongoLab-e4';
 // tell your app to use the modules
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); // support json encoded bodies
@@ -23,20 +24,6 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-app.post('/save', function (req, res) {
-    console.log(req.body);
-    if (req.body != undefined && req.body.length > 0) {
-        FileRecord[0].data.push(req.body);
-        var buffer = xlsx.build([{ name: "mySheetName", data: FileRecord[0].data }]); // returns a buffer
-        var stream = fs.createWriteStream(__dirname + "/public/app/data/RPSRecords.xlsx");
-        stream.once('open', function (fd) {
-            stream.write(buffer);
-            stream.end();
-        });
-
-    }
-
-});
 app.post('/getNext', function (req, res) {
     var max_length = 30;
     var prior = req.body.prior;
@@ -44,22 +31,27 @@ app.post('/getNext', function (req, res) {
 
 
     if (prior != undefined && prior.length > 0) {
-        MongoClient.connect(mongoUrl, function (err, db) {
-            if (err) {
-                console.log(err);
-            }
-            else {
+        if (req.body.winning == true) {
+            MongoClient.connect(mongoUrl, function (err, db) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
 
-                mongoUpsert(db, 'games', { _id: req.body.session, hands: record }, function (user_res) {
-                    //  console.log(user_res);
-                    db.close();
-                });
-            }
-            console.log('Disconnected from server successfully');
-        });
-        if (prior.length > max_length) prior = prior.slice(prior.length - max_length);
-        insert_chain_into_tree(RPSTree, prior);
-        res.send(GetWinningHand(ComputeBestChoice(RPSTree, prior)));
+                    mongoUpsert(db, 'games', { hands: record }, function (user_res) {
+                        //  console.log(user_res);
+                        db.close();
+                    });
+                }
+                console.log('Disconnected from server successfully');
+            });
+
+            if (prior.length > max_length) prior = prior.slice(prior.length - max_length);
+            insert_chain_into_tree(RPSTree, prior);
+        }
+        var ComputedScores = ComputeBestChoice(RPSTree, prior);
+        ComputedScores.hand = GetWinningHand(ComputedScores.hand);
+        res.send(ComputedScores);
     } else {
         var to_return = "R";
         var score = 0;
@@ -71,7 +63,7 @@ app.post('/getNext', function (req, res) {
             }
         }
         to_return = GetWinningHand(to_return);
-        res.send(to_return);
+        res.send({hand:to_return});
     }
     res.end();
 });
@@ -139,6 +131,8 @@ var GetBestChild = function (pointer) {
     return best;
 }
 var ComputeBestChoice = function (tree, sequence) {
+    var to_return = {};
+    var data = [];
     var original = sequence.slice(0);
     var R = 0;
     var P = 0;
@@ -146,25 +140,36 @@ var ComputeBestChoice = function (tree, sequence) {
     var index = 0;
     sequence = original.slice(original.length - index);
     while (index <= original.length) {
-        index++;
+        
         var tail = GetTail(tree, sequence);
 
         if (tail != undefined) {
-            if (tail.R != undefined)
-                R += tail.R.score * index * 3;
-            if (tail.P != undefined)
-                P += tail.P.score * index * 3;
-            if (tail.S != undefined)
-                S += tail.S.score * index * 3;
+            data.push({ sequence: sequence, R: 0, P: 0, S: 0 });
+            if (tail.R != undefined) {
+                R += tail.R.score * Math.max(1,(index * 3));
+                data[index].R = tail.R.score;
+                
+            }
+            if (tail.P != undefined) {
+                P += tail.P.score * Math.max(1,(index * 3));
+                data[index].P = tail.P.score;
+            }
+            if (tail.S != undefined) {
+                S += tail.S.score * Math.max(1,(index * 3));
+                data[index].S = tail.S.score;
+            }
         }
+        index++;
         sequence = original.slice(original.length - index);
     }
     console.log("R: " + R + " P: " + P + " S: " + S);
     if (R > P)
-        if (R > S) return 'R';
-        else return 'S';
-    if (P > S) return 'P';
-    return 'S';
+        if (R > S) to_return.hand = 'R';
+        else to_return.hand = 'S';
+    else if (P > S) to_return.hand = 'P';
+    else to_return.hand = 'S';
+    to_return.data = data;
+    return to_return;
 }
 var GetTail = function (tree, sequence) {
     var pointer = tree;
@@ -235,7 +240,7 @@ function insert_chain_into_tree(tree, root) {
     var index = 0;
 
     while (root.length > 0) {
-        insert_branch_into_tree(tree, root);
+        insert_last_hand_into_tree(tree, root);
         root = root.slice(1);
     }
 }

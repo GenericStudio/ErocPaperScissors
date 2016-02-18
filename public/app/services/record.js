@@ -18,6 +18,7 @@ angular.module('record', [])
             else if (winner == 'AI') record.AIWinCount++;
             else record.DrawCount++;
             record.winners.push(winner);
+            return winner;
         }
         var computeWinner = function (player, ai) {
             if (player == ai) return "Draw";

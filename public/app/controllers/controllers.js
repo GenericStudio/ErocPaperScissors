@@ -6,9 +6,7 @@ app.controller('rockPaperScisors', ['$scope', '$http', '$location','aiService','
     
     $scope.PlayHand = function(hand){
         if(aiService.handRequested) return ;
-        $scope.record.AddMatch(hand, aiService.currentHand);
-        aiService.GetNewHand(recordService.session);
+        var winner = $scope.record.AddMatch(hand, aiService.currentHand);
+        aiService.GetNewHand(recordService.session,(winner != 'AI'));
     }
-    
-    
 }]);

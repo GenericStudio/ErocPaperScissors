@@ -2,11 +2,11 @@ angular.module('api', [])
 .service('apiService', function ($http) {
    //console.log("Initializing APIFactory");
     var api = {};
-    api.GetNextHand = function(session,prior, successCallBack){
-         $http.post("/getNext",{session:session,prior:prior})
+    api.GetNextHand = function(session,prior,winning, successCallBack){
+         $http.post("/getNext",{session:session,prior:prior,winning:winning})
         .success(
            function (data, status, headers, config) {
-               console.log(data);
+              console.log(data);
               successCallBack(data);
            })
            .error(function (data, status, headers, config) {

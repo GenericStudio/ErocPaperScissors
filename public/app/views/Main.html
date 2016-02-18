@@ -1,2 +1,21 @@
-<player-input></player-input>
-<record-display></record-display>
+<ul style="width:100vw; float:left;" >
+    <li style='min-width:300px ;display:inline;'>
+        <player-input></player-input>
+    </li>
+    <li style='min-width:300px;display:inline; float:left; background-color:#F8F8FF; margin:25px;'>
+        <record-display></record-display>
+    </li>
+    <li style='min-width:300px;display:inline; float:left; background-color:#FAEBD7; margin:25px;'>
+        <h1>Score:</h1>
+            <p> Player : {{record.PlayerWinCount}} AI : {{record.AIWinCount}}</p>
+              <h1>Decision Results:</h1>
+        <ul>
+            <li ng-if="index.R != 0 || index.S != 0 || index.P!=0" ng-repeat="index in record.decision">
+                <div> R: {{index.R}} <span>&nbsp{{index.sequence}}</span></div>
+                <div> P: {{index.P}} </div>   
+                <div> S: {{index.S}} </div>
+                
+            </li>
+        </ul>
+    </li>
+</ul>

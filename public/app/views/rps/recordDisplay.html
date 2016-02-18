@@ -1,30 +1,29 @@
 <section id="Records">
-    <section layout="row" layout-md="column" layout-align="center center" layout-wrap>
-        Player : {{record.PlayerWinCount}} AI : {{record.AIWinCount}}
-    </section>
-
-    <section layout="row" layout-md="column" layout-align="center center" layout-wrap>
+   
+    <section >
         <style>
             .record_row {
                 list-style: none;
             }
             
             .record_row img {
-                height: 100px;
-                width: 100px;
+                height: 45px;
+                width: 45px;
             }
             
             .record_row p {
                 position: relative;
-                top: 35px;
-                left: 35px;
+                top: 25px;
+                left: 25px;
                 list-style-type: none;
             }
-            .player{
-                background-color:#98FF98
+            
+            .player {
+                background-color: #98FF98
             }
-            .ai{
-                background-color:#FFCDCD;
+            
+            .ai {
+                background-color: #FFCDCD;
             }
             
             .win {
@@ -39,7 +38,7 @@
         <ul>
             <li class='record_row' ng-repeat="item in record.playerHands track by $index" style='clear:left; '>
                 <div style='float:left; width:300px; '>
-                    <md-card class = 'player'>
+                    <md-card class='player'>
                         <md-card-title>
                             <md-card-title-text>
                                 <span class="md-headline">Player</span>
@@ -80,4 +79,5 @@
             </li>
         </ul>
     </section>
+
 </section>

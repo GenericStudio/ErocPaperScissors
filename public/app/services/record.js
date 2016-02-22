@@ -18,8 +18,9 @@ angular.module('record', [])
             else if (winner == 'AI') record.AIWinCount++;
             else record.DrawCount++;
             record.winners.push(winner);
-            insert_chain_into_tree(record.RPSTree, record.playerHands.slice(record.playerHands.length-20), winner);
+            insert_chain_into_tree(record.RPSTree, record.playerHands, winner,record.playerHands.length);
             record.graph = JSONifyTree(record.RPSTree);
+            record.graph.index=0;
 
 
 
@@ -30,6 +31,7 @@ angular.module('record', [])
             obj._children = [];
             obj.Descendants = 0;
             obj.forks_below = 0;
+            obj.index = root.index;
             obj.winner = root.winner;
             if (root.parent != undefined) {
                 obj.name = root.type;
@@ -113,9 +115,9 @@ angular.module('record', [])
             if (hand == 'S') return 'R';
             return "U";
         }
-        function insert_chain_into_tree(tree, root,winner) {
+        function insert_chain_into_tree(tree, root,winner,index) {
             while (root.length > 0) {
-                insert_last_hand_into_tree(tree, root,winner);
+                insert_last_hand_into_tree(tree, root,winner,index);
                 root = root.slice(1);
             }
         }
@@ -133,7 +135,7 @@ angular.module('record', [])
                 index++;
             }
         }
-        function insert_last_hand_into_tree(tree, root,winner) {
+        function insert_last_hand_into_tree(tree, root,winner,_index) {
             var pointer = tree;
             var index = 0;
             var increment = false;
@@ -142,6 +144,7 @@ angular.module('record', [])
                 if (pointer[next] == undefined) {
                     pointer[next] = new_RPSNode(pointer, next);
                     pointer[next].winner = winner;
+                    pointer[next].index = _index;
                     increment = false;
                 } else {
                     increment = true;

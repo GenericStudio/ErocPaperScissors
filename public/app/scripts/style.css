@@ -1,0 +1,28 @@
+ .node {
+        cursor: pointer;
+    }
+    
+    .node circle {
+        fill: black;
+        stroke: black;
+        stroke-width: 1px;
+    }
+    
+    .node text {
+        font: 12px sans-serif;
+    }
+    
+    .link {
+        fill: none;
+        stroke: black;
+        stroke-width: 1px;
+    }
+    .icon-large img{
+        width:100px;
+        height:100px;
+    }
+     .icon-small img{
+        width:25px;
+        height:25px;
+    }
+    

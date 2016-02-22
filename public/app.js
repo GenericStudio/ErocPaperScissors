@@ -1,4 +1,4 @@
-var app = angular.module('nodehack', ['ngRoute','ai','player','record','api','ngMaterial']);
+var app = angular.module('nodehack', ['ngRoute','ai','player','record','api']);
 
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider,$httpProvider) {
   $routeProvider

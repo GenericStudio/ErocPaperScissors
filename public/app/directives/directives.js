@@ -12,6 +12,29 @@ app.directive('playerInput', function () {
         templateUrl: 'app/views/rps/playerInput.html'
     }
 });
+app.directive('lastHand', function () {
+    return {
+        restrict: 'EA',
+
+        templateUrl: 'app/views/rps/lastHand.html'
+    }
+});
+app.directive('instruction', function () {
+    return {
+        restrict: 'EA',
+
+        templateUrl: 'app/views/rps/instruction.html'
+    }
+});
+app.directive('leaderboard', function () {
+    return {
+        restrict: 'EA',
+
+        templateUrl: 'app/views/rps/leaderboard.html'
+    }
+});
+
+
 app.directive('rockImage', function () {
     return {
         restrict: 'EA',
@@ -26,7 +49,7 @@ app.directive('paperImage', function () {
         template: "<img src='app/images/Paper.svg'/>"
     }
 });
-app.directive('scissorsImage', function () {
+app.directive('scissorImage', function () {
     return {
         restrict: 'EA',
 
@@ -110,12 +133,12 @@ var winners = {'AI':"red",'Player':"green",'Draw':'gray'};
            // if(treeData.R == undefined) return;
 
             // ************** Generate the tree diagram	 *****************
-            var margin = { top: 25, right: 25, bottom: 25, left: 25 },
-                width = window.innerWidth*.75 - margin.right -margin.left,
-                height = window.innerHeight*.8 - margin.top - margin.bottom;
+            var margin = { top: 25, right: 25, bottom: 25, left: 75 },
+                width = window.innerWidth*.5 - margin.right -margin.left,
+                height = treeData.forks_below*10;
 
             var i = 0,
-                duration = 0,
+                duration = 350,
                 root;
 
             var tree = d3.layout.tree()
@@ -147,7 +170,7 @@ var winners = {'AI':"red",'Player':"green",'Draw':'gray'};
                 // Normalize for fixed-depth.
                 nodes.forEach(function (d) {
                      d.y = d.depth * (width/root_depth);
-                     d.x +=  (d.name=='R'?1:d.name=="S"?-1:0); })
+                     d.x +=  (d.name=='R'?10:d.name=="S"?-10:0); })
 
                 // Update the nodes…
                 var node = svg.selectAll("g.node")
@@ -166,13 +189,13 @@ var winners = {'AI':"red",'Player':"green",'Draw':'gray'};
                          return colors[d.name]  });
 
                 nodeEnter.append("text")
-                    .attr("x", function (d) { 
-                        return d.children || d._children ? -7 : 7; })
+                    .attr("x", 0)
+                        .attr("y", -16)
                     .attr("dy", ".35em")
                     .attr("text-anchor", function (d) { 
                         return d.children || d._children ? "end" : "start"; })
                     .text(function (d) { 
-                        return d.name + ":"+d.score; })
+                        return d.name + ":"+d.index; })
                     .style("fill-opacity", 1e-6);
 
                 // Transition nodes to their new position.

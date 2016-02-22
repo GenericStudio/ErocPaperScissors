@@ -7,7 +7,7 @@ var express = require('express'),
     mongodb = require('mongodb'),
     fs = require('fs'),
     app = express();
-var Debug = false;
+var Debug = true;
 var MongoClient = mongodb.MongoClient;
 var mongoUrl = 'mongodb://localhost:27017'
 if (!Debug) mongoUrl = 'mongodb://generocusername:qazwsx@ds062438.mongolab.com:62438/MongoLab-e4';
@@ -137,26 +137,27 @@ var ComputeBestChoice = function (tree, sequence) {
     var R = 0;
     var P = 0;
     var S = 0;
-    var index = 0;
+    var index = 1;
     sequence = original.slice(original.length - index);
-    while (index <= original.length) {
-        
+    var multiplier = 1;
+    while (index < original.length) {
+        multiplier+=3;
         var tail = GetTail(tree, sequence);
 
         if (tail != undefined) {
             data.push({ sequence: sequence, R: 0, P: 0, S: 0 });
             if (tail.R != undefined) {
-                R += tail.R.score * Math.max(1,(index * 3));
-                data[index].R = tail.R.score;
+                R += tail.R.score * multiplier;
+                data[index-1].R = tail.R.score;
                 
             }
             if (tail.P != undefined) {
-                P += tail.P.score * Math.max(1,(index * 3));
-                data[index].P = tail.P.score;
+                P += tail.P.score * multiplier;
+                data[index-1].P = tail.P.score;
             }
             if (tail.S != undefined) {
-                S += tail.S.score * Math.max(1,(index * 3));
-                data[index].S = tail.S.score;
+                S += tail.S.score *multiplier;
+                data[index-1].S = tail.S.score;
             }
         }
         index++;
@@ -189,7 +190,6 @@ app.get('/load', function (req, res) {
 });
 var RPSTree = {};
 var RPSNode = { parent: undefined, type: '', score: 1, R: undefined, P: undefined, S: undefined };
-var RPSTree = {};
 var FileRecord = {};
 function buildTreeFromFile() {
     RPSTree = {};

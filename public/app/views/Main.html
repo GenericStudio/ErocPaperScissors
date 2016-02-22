@@ -1,21 +1,69 @@
-<ul style="width:100vw; float:left;" >
+<style>
+    .node {
+        cursor: pointer;
+    }
+    
+    .node circle {
+        fill: black;
+        stroke: black;
+        stroke-width: 1px;
+    }
+    
+    .node text {
+        font: 12px sans-serif;
+    }
+    
+    .link {
+        fill: none;
+        stroke: black;
+        stroke-width: 1px;
+    }
+    
+    .record_row {
+        list-style: none;
+    }
+    
+    .record_row img {
+        height: 45px;
+        width: 45px;
+    }
+    
+    .record_row p {
+        position: relative;
+        top: 25px;
+        left: 25px;
+        list-style-type: none;
+    }
+    
+    .player {
+        height: 80px;
+        background-color: #98FF98
+    }
+    
+    .ai {
+        height: 80px;
+        background-color: #FFCDCD;
+    }
+    
+    .win {
+        height: 80px;
+        background-color: green;
+    }
+    
+    .lose {
+        height: 80px;
+        background-color: brown;
+    }
+</style>
+<ul style="width:100vw; float:left;">
     <li style='min-width:300px ;display:inline;'>
         <player-input></player-input>
     </li>
-    <li style='min-width:300px;display:inline; float:left; background-color:#F8F8FF; margin:25px;'>
+    <li style='display:inline; float:left;'>
+        <game-recap></game-recap>
+    </li>
+    <li ng-if="ai.handRequested == false" style='min-width:300px;display:inline; float:left; background-color:#F8F8FF; margin:25px;'>
         <record-display></record-display>
     </li>
-    <li style='min-width:300px;display:inline; float:left; background-color:#FAEBD7; margin:25px;'>
-        <h1>Score:</h1>
-            <p> Player : {{record.PlayerWinCount}} AI : {{record.AIWinCount}}</p>
-              <h1>Decision Results:</h1>
-        <ul>
-            <li ng-if="index.R != 0 || index.S != 0 || index.P!=0" ng-repeat="index in record.decision">
-                <div> R: {{index.R}} <span>&nbsp{{index.sequence}}</span></div>
-                <div> P: {{index.P}} </div>   
-                <div> S: {{index.S}} </div>
-                
-            </li>
-        </ul>
-    </li>
+
 </ul>

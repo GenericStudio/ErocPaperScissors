@@ -17,12 +17,21 @@
         stroke: black;
         stroke-width: 1px;
     }
+    .icon-large{
+        width:200px;
+    }
     .icon-large img{
-        position:relative;
-        top:25px;
-        left:25px;
-        width:100px;
-        height:100px;
+        transform: translate(10%,0px);
+        width:80%;
+
+    }
+    .hover_darken:hover{
+        transition: background-color 1s ease;
+        background-color: lightgray;
+    }
+    .hover_darken{
+        transition: background-color 1s ease;
+        background-color:white;
     }
      .icon-small img{
         position:relative;

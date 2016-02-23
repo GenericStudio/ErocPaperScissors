@@ -9,7 +9,8 @@ angular.module('record', [])
         record.AIWinCount = 0;
         record.DrawCount = 0;
         record.PlayerWinCount = 0;
-
+        record.show_decision_graph = false;
+        record.show_previous_games = false;
         record.AddMatch = function (player, ai) {
             record.playerHands.push(player);
             record.aiHands.push(ai);

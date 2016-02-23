@@ -1,6 +1,14 @@
 <section class='row'>
     <div class='card panel icon-small grey'>
-        <span class='card-title'>Decision Graph</span>
-        <game-graph ng-if="ai.handRequested == false" />
+        <span class='card-title'>Decision Graph <div class="switch">
+            <label>
+                Off
+                <input type="checkbox" ng-model="record.show_decision_graph">
+                <span class="lever"></span> On
+        </label>
+    </div>
+    </span>
+
+    <game-graph ng-if="ai.handRequested == false" ng-show='record.show_decision_graph == true' />
     </div>
 </section>

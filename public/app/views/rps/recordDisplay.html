@@ -1,25 +1,31 @@
-<section class="row card-panel grey">
-    <section ng-repeat='item in record.playerHands track by $index' class='row' ng-if='record.playerHands.length>0'>
-        <div class="card-panel grey  lighten-2" style='height:125px;'>
-            <div class='card panel icon-small col s4 green' style='height:80px;'>
-                <card-title>Player</card-title>
-                <p/>
-                <rock-image ng-if="record.playerHands[record.playerHands.length - 1 -$index]=='R'"></rock-image>
-                <paper-image ng-if="record.playerHands[record.playerHands.length -1 - $index]=='P'"></paper-image>
-                <scissor-image ng-if="record.playerHands[record.playerHands.length -1 - $index]=='S'"></scissor-image>
-            </div>
-            <div class='card panel icon-small col s4 red   row' style='height:80px;'>
-                <card-title>AI</card-title>
-                <p/>
-                <rock-image ng-if="record.aiHands[record.playerHands.length -1 - $index]=='R'"></rock-image>
-                <paper-image ng-if="record.aiHands[record.playerHands.length -1 - $index]=='P'"></paper-image>
-                <scissor-image ng-if="record.aiHands[record.playerHands.length -1 - $index]=='S'"></scissor-image>
-            </div>
-            <div>
-                <div class='card panel icon-small col s4' ng-class='{"red ":record.winners[record.playerHands.length -1 - $index] == "AI","green":record.winners[record.playerHands.length - $index] == "Player", }'
-                style='height:80px;'>
-                    <card-title>Winner</card-title>
-                    <p class="md-headline">{{record.winners[record.playerHands.length - 1 -$index]}}</p>
+<section class="row card panel grey">
+    <span class='card-title'> Game History <div class="switch">
+            <label>
+                Off
+                <input type="checkbox" ng-model="record.show_previous_games">
+                <span class="lever"></span> On
+    </label>
+    </div>
+    </span>
+    <section ng-hide='!record.show_previous_games' ng-repeat='item in record.playerHands track by $index' class='row' ng-if='record.playerHands.length>0'>
+        <div class='card panel icon-small' ng-class='{"red darken-4":record.winners[record.playerHands.length-1- $index] == "AI","green darken-4":record.winners[record.playerHands.length-1- $index] == "Player", }'>
+            <span class='card-title'>Winner :  {{record.winners[record.playerHands.length-1 - $index]}}</span>
+            <div class="card panel" style='height:120px;'>
+                <div class='card panel icon-small col s6 green' style='height:100px;'>
+                    <span class='card-title'>Player</span>
+                    <div class='card-action'>
+                        <rock-image ng-if="record.playerHands[record.playerHands.length-1- $index]=='R'"></rock-image>
+                        <paper-image ng-if="record.playerHands[record.playerHands.length-1- $index]=='P'"></paper-image>
+                        <scissor-image ng-if="record.playerHands[record.playerHands.length-1- $index]=='S'"></scissor-image>
+                    </div>
+                </div>
+                <div class='card panel icon-small col s6 red  row' style='height:100px;'>
+                    <span class='card-title'>AI</span>
+                    <div class='card-action'>
+                        <rock-image ng-if="record.aiHands[record.aiHands.length-1- $index]=='R'"></rock-image>
+                        <paper-image ng-if="record.aiHands[record.aiHands.length-1- $index]=='P'"></paper-image>
+                        <scissor-image ng-if="record.aiHands[record.aiHands.length-1- $index]=='S'"></scissor-image>
+                    </div>
                 </div>
             </div>
         </div>
